@@ -1,6 +1,9 @@
 //Conway's Game of Life
 //https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
+//please look back in the following maybe 24 hours 
+//i want to organize this code better
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
