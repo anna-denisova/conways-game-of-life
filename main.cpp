@@ -1,14 +1,12 @@
 //Conway's Game of Life
 //https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
-//please look back in the following maybe 24 hours 
-//i want to organize this code better
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include "header.h"
 
 using namespace std;
 
@@ -71,105 +69,26 @@ void setup(){
             current_status[r-1][c-1] = true;
         }
     }else if(choice == 2){
-        cout<<"\tChoose from:\n\t1) The Pulsar\n\t2) David Hilbert\n\t3) Figure 8\n\t4) 52513M\n\t5) Bi-Block Fuse\n";
+        cout<<"\tChoose from:\n\t1) The Pulsar\n\t2) David Hilbert\n\t3) Figure 8\n\t4) 52513M\n\t5) Bi-Block Fuse\n\t> ";
         cin>>choice;
         if(choice == 1){
-
-            current_status = {
-                {false, false, true , true , true , false, false, true , true , true , false, false },
-                {false, false, false, false, false, false, false, false, false, false, false, false },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {false, false, true , true , true , false, false, true , true , true , false, false },
-
-                {false, false, false, false, false, false, false, false, false, false, false, false },
-
-                {false, false, true , true , true , false, false, true , true , true , false, false },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {true , false, false, false, false, true , true , false, false, false, false, true },
-                {false, false, false, false, false, false, false, false, false, false, false, false },
-                {false, false, true , true , true , false, false, true , true , true , false, false }
-            };
-
+            current_status = the_pulsar();
             total_rows = 13;
             total_cols = 12;
-
         }else if(choice == 2){
-            current_status = {
-                {false, false, false, false, false, false, false, true , true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false },
-                {false, false, false, false, false, false, true , true , true , true , true , false, false, false, false, false, false, false, false, false, false, false, true , true , true , true , true , false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, true , true , true , true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , true , true , false, false, false, false },
-                {false, false, false, false, true , false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, true , false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, true , false, false, false, false, true , true , false, true , true , false, false, true , false, true , true , false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, true , true , true , false, false, false, true , true , false, true , false, false, false, false, false, false, true , true , false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, true , false, false, true , true , false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, true , true , true , false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, true , false, false, false, false, false, false, false, false },
-                {false, false, false, true , true , false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, true , false, false, true , false, false, true , true , false, false, false },
-                {false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, false, true , true , false, false, false, false, true , false, false, false },
-                {true , true , false, true , false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, false, false, false, false, false, false, false, true , false, true , true  },
-                {true , false, true , true , false, true , true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, true , true , false, true  },
-                {false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false },
-                {false, false, false, false, false, true , false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, true , false, false, false, false, false },
-                {false, false, false, false, false, false, true , true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, true , true , true , true , true , false, false, false, false, false, false, false, false, false, false, false, true , true , true , true , true , false, false, false, false, false, false },
-                {false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , false, false, false, false, false, false, false, false },
-                {false, false, false, false, false, false, false, true , true , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , false, false, false, false, false, false, false }
-            };
+            current_status = david_hilbert();
             total_rows = 26;
             total_cols = 33;
         }else if(choice == 3){
-            current_status = {
-                {false, false, false, false, false, false, false },
-                {false, false, false, false, false, true , true  },
-                {false, false, false, true , false, true , true  },
-                {false, false, true , false, false, false, false },
-                {false, false, false, false, false, true , false },
-                {false, true , true , false, true , false, false },
-                {false, true , true , false, false, false, false }
-            };
+            current_status = figure_8();
             total_rows = 7;
             total_cols = 7;
         }else if(choice == 4){
-            current_status = {
-                {true , true , true , false, false, true , true , false, true , false, true , true , false, true , true , true  },
-                {true , true , false, true , false, true , true , true , false, false, false, false, true , false, true , false },
-                {false, true , false, false, true , false, false, true , false, true , false, true , true , true , false, true  },
-                {false, false, true , false, false, true , true , false, false, false, true , false, false, true , false, false },
-                {false, false, true , false, false, false, false, false, true , false, true , false, false, false, true , true  },
-                {true , false, false, false, false, true , true , false, false, false, true , true , true , false, true , false },
-                {false, false, false, true , true , false, false, true , false, false, true , false, true , false, false, true  },
-                {false, false, true , true , true , true , false, true , false, false, true , false, true , true , false, false },
-                {true , true , false, true , true , false, false, true , true , false, false, false, false, false, true , true  },
-                {true , false, true , true , true , true , false, true , false, false, false, false, true , true , true , false },
-                {true , false, false, false, true , true , true , true , false, false, true , true , true , false, false, false },
-                {false, true , true , true , true , true , true , true , true , true , true , false, false, true , true , true  },
-                {true , true , false, false, false, true , false, true , true , true , false, true , false, true , true , true  },
-                {false, true , true , false, true , true , true , true , true , true , false, false, false, true , false, true  },
-                {true , false, true , false, false, false, false, false, true , true , true , true , false, true , false, false },
-                {true , true , true , false, true , false, true , false, true , true , false, false, false, false, false, true  }
-            };
+            current_status = five_m();
             total_rows = 16;
             total_cols = 16;
         }else if(choice == 5){
-            current_status = {
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-                {false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false },
-                {false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, true , false, false, true  },
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true , true , false },
-                {false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, false, false, false },
-                {false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, true , true , false, false, false, false, false },
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
-            };
+            current_status = bi_block();
             total_rows = 7;
             total_cols = 48;
         }
@@ -184,11 +103,9 @@ void setup(){
         cout<<"{";
         for(int j = 0; j<total_cols; ++j){
             if(current_status[i][j]){
-               //cout<<"██"; 
-               cout<<"True , ";
+               cout<<"██"; 
             }else{
-                //cout<<"░░";
-                cout<<"False, ";
+                cout<<"░░";
             }
         }
         cout<<"},\n";
